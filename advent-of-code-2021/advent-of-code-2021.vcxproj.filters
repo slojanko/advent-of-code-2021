@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Code\day1.cpp" />
+    <ClCompile Include="Code\day2.cpp" />
+    <ClCompile Include="Code\day3.cpp" />
+    <ClCompile Include="Code\day4.cpp" />
+    <ClCompile Include="Code\day5.cpp" />
+    <ClCompile Include="Code\day6.cpp" />
+    <ClCompile Include="Code\day7.cpp" />
+    <ClCompile Include="Code\day8.cpp" />
+    <ClCompile Include="Code\day9.cpp" />
+    <ClCompile Include="Code\day10.cpp" />
+    <ClCompile Include="Code\day11.cpp" />
+    <ClCompile Include="Code\day12.cpp" />
+    <ClCompile Include="Code\day13.cpp" />
+    <ClCompile Include="Code\day14.cpp" />
+    <ClCompile Include="Code\day15.cpp" />
+    <ClCompile Include="Code\day16.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Code\day1.h" />
+    <ClInclude Include="Code\day2.h" />
+    <ClInclude Include="Code\day3.h" />
+    <ClInclude Include="Code\day5.h" />
+    <ClInclude Include="Code\day4.h" />
+    <ClInclude Include="Code\day6.h" />
+    <ClInclude Include="Code\day7.h" />
+    <ClInclude Include="Code\day8.h" />
+    <ClInclude Include="Code\day9.h" />
+    <ClInclude Include="Code\day10.h" />
+    <ClInclude Include="Code\day11.h" />
+    <ClInclude Include="Code\day12.h" />
+    <ClInclude Include="Code\day13.h" />
+    <ClInclude Include="Code\day14.h" />
+    <ClInclude Include="Code\day15.h" />
+    <ClInclude Include="Code\day16.h" />
+  </ItemGroup>
+</Project>
