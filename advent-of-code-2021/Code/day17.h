@@ -7,9 +7,9 @@ namespace day17 {
 	public:
 		void SetTarget(int min_x, int max_x, int min_y, int max_y);
 		void ComputeValidShots();
-		int GetSumOfNumberRange(int start, int end);
+		bool IsShotValid(int vel_x, int vel_y);
 		int GetHighestPointOfValidShots();
-		std::pair<double, double> SolveQuadratic(int a, int b, int c);
+		int GetNumberOfValidShots();
 
 	private:
 		int min_x, max_x, min_y, max_y;

@@ -8,42 +8,38 @@ namespace day17 {
 	void TrickShot::SetTarget(int min_x, int max_x, int min_y, int max_y) {
 		this->min_x = min_x;
 		this->max_x = max_x;
-		this->min_y = -min_y;
-		this->max_y = -max_y;
+		this->min_y = min_y;
+		this->max_y = max_y;
 	}
 
 	void TrickShot::ComputeValidShots() {
-		for (int x = 0; x < max_x; x++) {
-			for (int y = 0; y < max_y; y++) {
-				// (e - s + 1) * (s + e) / 2 = m
-				// e = end velocity
-				// s = start velocity
-				// m = max allowed position
-				// Solve for e
-				// Find max y velocity before it goes past target
-				std::pair<double, double> solutions = SolveQuadratic(1, 1, y - y * y - 2 * max_y);
-				int positive_solution = std::max(solutions.first, solutions.second);
-
-				// No positive solution
-				if (positive_solution == -1) {
-					continue;
-				}
-
-				// Steps taken to return back to y=0 + steps taken after
-				int steps = (2 * y + 1) + (positive_solution - y + 1);
-				
-				// Sum is both range inclusive, so for 1 step only return x
-				int final_x = GetSumOfNumberRange(std::max(0, x - steps - 1), x);
-				int final_y = GetSumOfNumberRange(y, positive_solution);
-
-				bool touches_on_x = final_x >= min_x && final_x <= max_x;
-				bool touches_on_y = GetSumOfNumberRange(y, positive_solution) >= min_y;
-
-				if (touches_on_x && touches_on_y) {
+		for (int x = 0; x <= max_x; x++) {
+			for (int y = max_y; y <= -max_y; y++) {
+				if (IsShotValid(x, y)) {
 					valid_shots.push_back({ x, y });
 				}
 			}
 		}
+	}
+
+	bool TrickShot::IsShotValid(int vel_x, int vel_y) {
+		int pos_x = 0, pos_y = 0;
+		while (pos_y >= max_y) {
+			pos_x += vel_x;
+			pos_y += vel_y;
+			if (vel_x > 0) {
+				vel_x--;
+			}
+			vel_y--;
+
+			if (pos_x >= min_x && pos_x <= max_x) {
+				if (pos_y <= min_y && pos_y >= max_y) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	}
 
 	int TrickShot::GetHighestPointOfValidShots() {
@@ -54,27 +50,11 @@ namespace day17 {
 			}
 		}
 
-		return GetSumOfNumberRange(0, max_y_velocity);
+		return max_y_velocity * (max_y_velocity + 1) / 2;
 	}
-
-	std::pair<double, double> TrickShot::SolveQuadratic(int a, int b, int c) {
-		double x1, x2;
-		double det = b * b - 4 * a * c;
-		if (det < 0) {
-			return { -1.0, -1.0 };
-		}
-
-		double det_sqrt = sqrt(det);
-		x1 = (-b + det_sqrt) / (2 * a);
-		x2 = (-b - det_sqrt) / (2 * a);
-
-		return { x1, x2 };
-	}
-
-	// https://stackoverflow.com/questions/30386084/sum-all-numbers-between-two-integers/30386168
-	int TrickShot::GetSumOfNumberRange(int start, int end) {
-		int n = end - start + 1;
-		return (n * (start + end)) / 2;
+	
+	int TrickShot::GetNumberOfValidShots() {
+		return valid_shots.size();
 	}
 
 	void task1() {
@@ -85,7 +65,10 @@ namespace day17 {
 	}
 
 	void task2() {
-
+		TrickShot trickshot;
+		ReadInput(trickshot);
+		trickshot.ComputeValidShots();
+		std::cout << trickshot.GetNumberOfValidShots() << std::endl;
 	}
 
 	void ReadInput(TrickShot& trickshot) {
