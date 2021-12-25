@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -146,6 +146,7 @@
     <ClCompile Include="Code\day14.cpp" />
     <ClCompile Include="Code\day15.cpp" />
     <ClCompile Include="Code\day16.cpp" />
+    <ClCompile Include="Code\day17.cpp" />
     <ClCompile Include="Code\day2.cpp" />
     <ClCompile Include="Code\day3.cpp" />
     <ClCompile Include="Code\day4.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Code\day14.h" />
     <ClInclude Include="Code\day15.h" />
     <ClInclude Include="Code\day16.h" />
+    <ClInclude Include="Code\day17.h" />
     <ClInclude Include="Code\day2.h" />
     <ClInclude Include="Code\day3.h" />
     <ClInclude Include="Code\day4.h" />
