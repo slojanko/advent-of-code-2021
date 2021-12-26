@@ -19,6 +19,7 @@
     <ClCompile Include="Code\day15.cpp" />
     <ClCompile Include="Code\day16.cpp" />
     <ClCompile Include="Code\day17.cpp" />
+    <ClCompile Include="Code\day18.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Code\day1.h" />
@@ -38,5 +39,6 @@
     <ClInclude Include="Code\day15.h" />
     <ClInclude Include="Code\day16.h" />
     <ClInclude Include="Code\day17.h" />
+    <ClInclude Include="Code\day18.h" />
   </ItemGroup>
 </Project>

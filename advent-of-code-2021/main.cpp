@@ -15,6 +15,7 @@
 #include "Code/day15.h"
 #include "Code/day16.h"
 #include "Code/day17.h"
+#include "Code/day18.h"
 
 int main() {
 	//day1::task1();
@@ -49,6 +50,8 @@ int main() {
 	//day15::task2();
 	//day16::task1();
 	//day16::task2();
-	day17::task1();
-	day17::task2();
+	//day17::task1();
+	//day17::task2();
+	day18::task1();
+	day18::task2();
 }
