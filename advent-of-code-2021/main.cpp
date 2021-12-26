@@ -52,6 +52,6 @@ int main() {
 	//day16::task2();
 	//day17::task1();
 	//day17::task2();
-	day18::task1();
-	day18::task2();
+	//day18::task1();
+	//day18::task2();
 }

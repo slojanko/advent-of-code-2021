@@ -229,7 +229,7 @@ namespace day18 {
 				}
 
 				result->Free();
-				delete pair;
+				delete result;
 			}
 		}
 
