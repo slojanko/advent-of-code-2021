@@ -25,6 +25,18 @@ namespace day18 {
 		return sum;
 	}
 
+	Pair* Homework::SolveOnlyTwo(int first, int second)	{
+		Pair* sum = new Pair();
+		sum->pair_left = pairs[first];
+		sum->pair_right = pairs[second];
+
+		sum->pair_left->parent = sum;
+		sum->pair_right->parent = sum;
+
+		sum->Reduce();
+		return sum;
+	}
+
 	void Pair::Parse(std::string& input, int& offset) {
 		// We are at a number
 		if (input[offset] != '[') {
@@ -46,7 +58,7 @@ namespace day18 {
 
 		// Right
 		pair_right = new Pair();
-		pair_left->parent = this;
+		pair_right->parent = this;
 		pair_right->Parse(input, offset);
 
 		// ]
@@ -66,19 +78,44 @@ namespace day18 {
 		std::cout << ']';
 	}
 
+	void Pair::Free() {
+		if (!IsNumber()) {
+			pair_left->Free();
+			pair_right->Free();
+
+			delete pair_left;
+			delete pair_right;
+		}
+	}
+
+	int Pair::GetMagnitude() {
+		if (IsNumber()) {
+			return value;
+		}
+
+		return 3 * pair_left->GetMagnitude() + 2 * pair_right->GetMagnitude();
+	}
+
 	void Pair::Reduce() {
-		Explode(0);
+		//Print();
+		//std::cout << std::endl;
 
-		//while (true) {
-		//	if (Explode(0)) {
-		//		continue;
-		//	}
-		//	if (Split()) {
-		//		continue;
-		//	}
+		while (true) {
+			if (Explode(0)) {
+				//std::cout << "Explode" << std::endl;
+				//Print();
+				//std::cout << std::endl;
+				continue;
+			}
+			if (Split()) {
+				//std::cout << "Split" << std::endl;
+				//Print();
+				//std::cout << std::endl;
+				continue;
+			}
 
-		//	break;
-		//}
+			break;
+		}
 	}
 
 	bool Pair::Explode(int depth) {
@@ -88,8 +125,8 @@ namespace day18 {
 
 		if (depth == 3) {
 			if (!pair_left->IsNumber()) {
-				parent->AddLeft(this, pair_left->pair_left->value);
-				AddRight(pair_left, pair_left->pair_right->value);
+				AddLeft(pair_left, false, pair_left->pair_left->value);
+				AddRight(pair_left, false, pair_left->pair_right->value);
 				delete pair_left->pair_left;
 				delete pair_left->pair_right;
 				pair_left->value = 0;
@@ -97,8 +134,8 @@ namespace day18 {
 			}
 		
 			if (!pair_right->IsNumber()) {
-				AddLeft(pair_right, pair_right->pair_left->value);
-				parent->AddRight(this, pair_right->pair_right->value);
+				AddLeft(pair_right, false, pair_right->pair_left->value);
+				AddRight(pair_right, false, pair_right->pair_right->value);
 				delete pair_right->pair_left;
 				delete pair_right->pair_right;
 				pair_right->value = 0;
@@ -114,66 +151,102 @@ namespace day18 {
 	}
 
 	bool Pair::Split() {
-		return false;
+		if (IsNumber()) {
+			if (value >= 10) {
+				pair_left = new Pair();
+				pair_left->parent = this;
+				pair_left->value = value / 2;
 
+				pair_right = new Pair();
+				pair_right->parent = this;
+				pair_right->value = (value + 1) / 2;
+
+				value = -1;
+				return true;
+			}
+
+			return false;
+		}
+
+		if (pair_left->Split()) {
+			return true;
+		}
+
+		return pair_right->Split();
 	}
 
-	bool Pair::AddLeft(Pair* source, int value) {
+	bool Pair::AddLeft(Pair* came_from, bool can_check_right, int value) {
 		if (IsNumber()) {
 			this->value += value;
 			return true;
 		}
 
-		if (pair_right && pair_right != source) {
-			if (pair_right->AddLeft(this, value)) {
-				return true;
-			}
+		if (can_check_right && pair_right != came_from && pair_right->AddLeft(this, true, value)) {
+			return true;
 		}
 
-		if (pair_left && pair_left != source) {
-			if (pair_left->AddLeft(this, value)) {
-				return true;
-			}
+		if (pair_left != came_from && pair_left->AddLeft(this, true, value)) {
+			return true;
 		}
 
-		return parent->AddLeft(this, value);
+		return parent && parent->AddLeft(this, false, value);
 	}
 
-	bool Pair::AddRight(Pair* source, int value) {
+	bool Pair::AddRight(Pair* came_from, bool can_check_left, int value) {
 		if (IsNumber()) {
 			this->value += value;
 			return true;
 		}
 
-		if (pair_left && pair_left != source) {
-			if (pair_left->AddRight(this, value)) {
-				return true;
-			}
+		if (can_check_left && pair_left != came_from && pair_left->AddRight(this, true, value)) {
+			return true;
 		}
 
-		if (pair_right && pair_right != source) {
-			if (pair_right->AddRight(this, value)) {
-				return true;
-			}
+		if (pair_right != came_from && pair_right->AddRight(this, true, value)) {
+			return true;
 		}
 
-		return parent->AddRight(this, value);
+		return parent && parent->AddRight(this, false, value);
 	}
 
 	void task1() {
-		Homework homework;;
+		Homework homework;
 		ReadInput(homework);
 		Pair* result = homework.Solve();
-		result->Print();
+		std::cout << result->GetMagnitude() << std::endl;
+
+		result->Free();
+		delete result;
 	}
 
 	void task2() {
+		int max_magnitude = 0;
 
+		// Todo: This has to be improved :)
+		for(int i = 0; i < 100; i++) {
+			std::cout << '.';
+			for (int j = 0; j < 100; j++) {
+				if (i == j) {
+					continue;
+				}
+				Homework homework;
+				ReadInput(homework);
+
+				Pair* result = homework.SolveOnlyTwo(i, j);
+				int current_max = result->GetMagnitude();
+				if (current_max > max_magnitude) {
+					max_magnitude = current_max;
+				}
+			}
+		}
+
+		std::cout << max_magnitude << std::endl;
 	}
 
 	void ReadInput(Homework& homework) {
 		std::ifstream in(".\\Inputs\\day18.txt");
 		std::string line;
+
 		while (in >> line) {
 			int offset = 0;
 			Pair* pair = new Pair();

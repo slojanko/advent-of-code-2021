@@ -9,6 +9,7 @@ namespace day18 {
 	public:
 		void AddPair(Pair* pair);
 		Pair* Solve();
+		Pair* SolveOnlyTwo(int first, int second);
 
 	private:
 		std::vector<Pair*> pairs;
@@ -23,14 +24,18 @@ namespace day18 {
 		bool IsNumber() const {
 			return value != -1;
 		}
+		void Free();
+		int GetMagnitude();
 
 	private:
 		void Reduce();
 		bool Explode(int depth);
 		bool Split();
 
-		bool AddLeft(Pair* source, int value);
-		bool AddRight(Pair* source, int value);
+		// came_from - prevent revisiting same Pair
+		// can_check_* - prevent visiting other side if recursively check parent
+		bool AddLeft(Pair* came_from, bool can_check_right, int value);
+		bool AddRight(Pair* came_from, bool can_check_left, int value);
 
 	private:
 		int value = -1;
