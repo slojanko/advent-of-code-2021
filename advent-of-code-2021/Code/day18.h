@@ -9,7 +9,6 @@ namespace day18 {
 	public:
 		void AddPair(Pair* pair);
 		Pair* Solve();
-		Pair* SolveOnlyTwo(int first, int second);
 
 	private:
 		std::vector<Pair*> pairs;
@@ -48,4 +47,5 @@ namespace day18 {
 	void task2();
 
 	void ReadInput(Homework& pair);
+	void ReadInput(std::vector<std::string>& lines);
 }

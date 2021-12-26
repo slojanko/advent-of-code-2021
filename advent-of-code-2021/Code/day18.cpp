@@ -25,18 +25,6 @@ namespace day18 {
 		return sum;
 	}
 
-	Pair* Homework::SolveOnlyTwo(int first, int second)	{
-		Pair* sum = new Pair();
-		sum->pair_left = pairs[first];
-		sum->pair_right = pairs[second];
-
-		sum->pair_left->parent = sum;
-		sum->pair_right->parent = sum;
-
-		sum->Reduce();
-		return sum;
-	}
-
 	void Pair::Parse(std::string& input, int& offset) {
 		// We are at a number
 		if (input[offset] != '[') {
@@ -221,22 +209,36 @@ namespace day18 {
 
 	void task2() {
 		int max_magnitude = 0;
+		std::vector<std::string> lines;
+		ReadInput(lines);
 
-		// Todo: This has to be improved :)
-		for(int i = 0; i < 100; i++) {
-			std::cout << '.';
-			for (int j = 0; j < 100; j++) {
+		for(int i = 0; i < lines.size(); i++) {
+			for (int j = 0; j < lines.size(); j++) {
 				if (i == j) {
 					continue;
 				}
-				Homework homework;
-				ReadInput(homework);
 
-				Pair* result = homework.SolveOnlyTwo(i, j);
+				int offset;
+				Homework homework;
+
+				Pair* pair = new Pair();
+				offset = 0;
+				pair->Parse(lines[i], offset);
+				homework.AddPair(pair);
+
+				pair = new Pair();
+				offset = 0;
+				pair->Parse(lines[j], offset);
+				homework.AddPair(pair);
+
+				Pair* result = homework.Solve();
 				int current_max = result->GetMagnitude();
 				if (current_max > max_magnitude) {
 					max_magnitude = current_max;
 				}
+
+				pair->Free();
+				delete pair;
 			}
 		}
 
@@ -252,6 +254,15 @@ namespace day18 {
 			Pair* pair = new Pair();
 			pair->Parse(line, offset);
 			homework.AddPair(pair);
+		}
+	}
+
+	void ReadInput(std::vector<std::string>& lines) {
+		std::ifstream in(".\\Inputs\\day18.txt");
+		std::string line;
+
+		while (in >> line) {
+			lines.push_back(line);
 		}
 	}
 }
