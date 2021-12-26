@@ -85,20 +85,11 @@ namespace day18 {
 	}
 
 	void Pair::Reduce() {
-		//Print();
-		//std::cout << std::endl;
-
 		while (true) {
 			if (Explode(0)) {
-				//std::cout << "Explode" << std::endl;
-				//Print();
-				//std::cout << std::endl;
 				continue;
 			}
 			if (Split()) {
-				//std::cout << "Split" << std::endl;
-				//Print();
-				//std::cout << std::endl;
 				continue;
 			}
 
@@ -208,10 +199,10 @@ namespace day18 {
 	}
 
 	void task2() {
-		int max_magnitude = 0;
 		std::vector<std::string> lines;
 		ReadInput(lines);
 
+		int max_magnitude = 0;
 		for(int i = 0; i < lines.size(); i++) {
 			for (int j = 0; j < lines.size(); j++) {
 				if (i == j) {
@@ -237,7 +228,7 @@ namespace day18 {
 					max_magnitude = current_max;
 				}
 
-				pair->Free();
+				result->Free();
 				delete pair;
 			}
 		}
