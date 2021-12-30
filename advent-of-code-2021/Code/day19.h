@@ -31,43 +31,36 @@ namespace day19 {
 		}
 
 		Vector3& operator+=(const Vector3& rhs) {
-			this->value[Axis::X] += rhs.value[Axis::X];
-			this->value[Axis::Y] += rhs.value[Axis::Y];
-			this->value[Axis::Z] += rhs.value[Axis::Z];
+			value[Axis::X] += rhs.value[Axis::X];
+			value[Axis::Y] += rhs.value[Axis::Y];
+			value[Axis::Z] += rhs.value[Axis::Z];
 			return *this;
 		}
 
 		Vector3 operator+(const Vector3& rhs) const {
 			Vector3 v{
-				this->value[Axis::X] + rhs.value[Axis::X],
-				this->value[Axis::Y] + rhs.value[Axis::Y],
-				this->value[Axis::Z] + rhs.value[Axis::Z]
+				value[Axis::X] + rhs.value[Axis::X],
+				value[Axis::Y] + rhs.value[Axis::Y],
+				value[Axis::Z] + rhs.value[Axis::Z]
 			};
 			return v;
 		}
 
 		Vector3 operator-(const Vector3& rhs) const {
 			Vector3 v{ 
-				this->value[Axis::X] - rhs.value[Axis::X],
-				this->value[Axis::Y] - rhs.value[Axis::Y],
-				this->value[Axis::Z] - rhs.value[Axis::Z]
+				value[Axis::X] - rhs.value[Axis::X],
+				value[Axis::Y] - rhs.value[Axis::Y],
+				value[Axis::Z] - rhs.value[Axis::Z]
 			};
 			return v;
 		}
 
 		bool operator==(const Vector3& rhs) {
-			return this->value[Axis::X] == rhs.value[Axis::X] &&
-			this->value[Axis::Y] == rhs.value[Axis::Y] &&
-			this->value[Axis::Z] == rhs.value[Axis::Z];
+			return value[Axis::X] == rhs.value[Axis::X] &&
+			value[Axis::Y] == rhs.value[Axis::Y] &&
+			value[Axis::Z] == rhs.value[Axis::Z];
 		}
 
-		bool operator==(Vector3& rhs) {
-			return this->value[Axis::X] == rhs.value[Axis::X] &&
-			this->value[Axis::Y] == rhs.value[Axis::Y] &&
-			this->value[Axis::Z] == rhs.value[Axis::Z];
-		}
-
-		int operator [] (int i) const { return value[i]; }
 		int& operator [] (int i) { return value[i]; }
 
 	public:
