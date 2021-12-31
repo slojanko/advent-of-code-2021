@@ -2,6 +2,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <map>
 
 namespace day19 {
 	void Scanner::AddPoint(int x, int y, int z) {
@@ -15,25 +16,13 @@ namespace day19 {
 	}
 
 	bool Scanner::TryMatch(Scanner& sc, int threshold) {
-		std::vector<std::pair< Vector3, int>> matches;
+		std::map<Vector3, int> matches;
 
 		// Find all matched points between this scanner and an umatched one
 		for(const auto& point : points) {
 			for (const auto& other : sc.points) {
 				Vector3 diff = point.oriented - other.oriented;
-
-				bool exists = false;
-				for (auto& match : matches) {
-					if (match.first == diff) {
-						match.second++;
-						exists = true;
-						break;
-					}
-				}
-
-				if (!exists) {
-					matches.push_back({ diff, 1 });
-				}
+				matches[diff]++;
 			}
 		}
 

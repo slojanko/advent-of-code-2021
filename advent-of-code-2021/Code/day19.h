@@ -55,10 +55,17 @@ namespace day19 {
 			return v;
 		}
 
-		bool operator==(const Vector3& rhs) {
+		bool operator==(const Vector3& rhs) const {
 			return value[Axis::X] == rhs.value[Axis::X] &&
-			value[Axis::Y] == rhs.value[Axis::Y] &&
-			value[Axis::Z] == rhs.value[Axis::Z];
+				value[Axis::Y] == rhs.value[Axis::Y] &&
+				value[Axis::Z] == rhs.value[Axis::Z];
+		}
+
+		// https://stackoverflow.com/questions/18854198/stdmap-with-vector3-key-versus-stdvector-using-a-composite-index
+		bool operator<(const Vector3& rhs) const {
+			return value[Axis::X] < rhs.value[Axis::X] ||
+				(value[Axis::X] == rhs.value[Axis::X] && (value[Axis::Y] < rhs.value[Axis::Y] ||
+				(value[Axis::Y] == rhs.value[Axis::Y] && value[Axis::Z] < rhs.value[Axis::Z])));
 		}
 
 		int& operator [] (int i) { return value[i]; }
